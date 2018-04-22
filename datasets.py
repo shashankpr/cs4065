@@ -23,7 +23,8 @@ class CS4065_Dataset(object):
       'vse_model': 'http://www.cs.toronto.edu/~rkiros/models/vse.zip',
   }
 
-  def __init__(self):
+  def __init__(self, store_dir=PATH_DATA):
+    self.store_dir = store_dir
     pass
 
   @classmethod
@@ -200,7 +201,7 @@ class CS4065_Dataset(object):
     assert dataset_name in cls.DATASET_ARCHIVE_URLS
 
     # Fetch the dataset if not deployed.
-    path = os.path.join(PATH_DATA, dataset_name)
+    path = os.path.join(self.store_dir, dataset_name)
     if not os.path.exists(path):
       # Check if the dataset can be fetched.
       if cls.DATASET_ARCHIVE_URLS[dataset_name] is None:
