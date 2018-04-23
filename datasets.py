@@ -11,6 +11,7 @@ from config import PATH_DATA
 
 class CS4065_Dataset(object):
 
+  store_dir = PATH_DATA
   DATASET_ARCHIVE_URLS = {
       'poster_images': None,
       'testcases': 'https://www.dropbox.com/s/z7nenlpkrcsodrt/testcases.tar.gz?dl=1',
@@ -24,22 +25,33 @@ class CS4065_Dataset(object):
   }
 
   def __init__(self, store_dir=PATH_DATA):
-    self.store_dir = store_dir
-    pass
+      self.store_dir = store_dir
+      self.DATASET_ARCHIVE_URLS = {
+          'poster_images': None,
+          'testcases': 'https://www.dropbox.com/s/z7nenlpkrcsodrt/testcases.tar.gz?dl=1',
+          'movielens_subset': 'https://www.dropbox.com/s/mbzgntv787x75ld/movielens_subset.tar.gz?dl=1',
+          'wraprec_sample_data3': 'https://www.dropbox.com/s/j46m8qdbkh3vtb3/wraprec_sample_data.tar.gz?dl=1',
+          'songretrieval_subset': 'https://www.dropbox.com/s/wubrlxput9cstn1/songretrieval-small.tar.gz?dl=1',
+          'songretrieval_queries': 'https://www.dropbox.com/s/km4zcqagvi7i5rk/songretrieval-queries.tar.gz?dl=1',
+          'msra_mm1_subset': 'https://www.dropbox.com/s/bfj2wx50rapxnlz/msra-mm1_subset.tar.gz?dl=1',
+          'vgg19_model': 'https://s3.amazonaws.com/lasagne/recipes/pretrained/imagenet/vgg19.pkl',
+          'vse_model': 'http://www.cs.toronto.edu/~rkiros/models/vse.zip',
+      }
+      return
 
   @classmethod
-  def get_wraprec_sample_data(cls):
+  def get_wraprec_sample_data(self):
     """
     It returns the path to the configuration file for the WrapRec toolbox.
     """
-    path_to_files = cls._get_dataset_path('wraprec_sample_data3')
+    path_to_files = self._get_dataset_path('wraprec_sample_data3')
     config_file_path = os.path.join(path_to_files, 'sample.xml')
     assert os.path.exists(config_file_path)
     return config_file_path
 
   @classmethod
-  def get_movielens_subset(cls):
-    path_to_files = cls._get_dataset_path('movielens_subset')
+  def get_movielens_subset(self):
+    path_to_files = self._get_dataset_path('movielens_subset')
 
     path_to_file_dict = {}
 
@@ -51,8 +63,8 @@ class CS4065_Dataset(object):
     return path_to_file_dict
 
   @classmethod
-  def get_msra_mm1_subset(cls):
-    path_to_root = cls._get_dataset_path('msra_mm1_subset')
+  def get_msra_mm1_subset(self):
+    path_to_root = self._get_dataset_path('msra_mm1_subset')
     image_prefix = os.path.join(path_to_root, 'msra-mm1_subset/Images')
     features_prefix = os.path.join(path_to_root, 'msra-mm1_subset/Features')
 
@@ -76,8 +88,8 @@ class CS4065_Dataset(object):
     return msra_mm1_data
 
   @classmethod
-  def get_songretrieval_subset(cls):
-    path_to_files = cls._get_dataset_path('songretrieval_subset')
+  def get_songretrieval_subset(self):
+    path_to_files = self._get_dataset_path('songretrieval_subset')
 
     path_to_file_dict = {}
 
@@ -91,8 +103,8 @@ class CS4065_Dataset(object):
     return path_to_file_dict
 
   @classmethod
-  def get_songretrieval_queries(cls):
-    path_to_files = cls._get_dataset_path('songretrieval_queries')
+  def get_songretrieval_queries(self):
+    path_to_files = self._get_dataset_path('songretrieval_queries')
 
     path_to_file_dict = {}
 
@@ -106,8 +118,8 @@ class CS4065_Dataset(object):
     return path_to_file_dict
 
   @classmethod
-  def get_poster_images(cls):
-    path_to_images = cls._get_dataset_path('poster_images')
+  def get_poster_images(self):
+    path_to_images = self._get_dataset_path('poster_images')
 
     images = []
     for image_filename in os.listdir(path_to_images):
@@ -119,8 +131,8 @@ class CS4065_Dataset(object):
     return images
 
   @classmethod
-  def get_testcases_data(cls):
-    path = cls._get_dataset_path('testcases')
+  def get_testcases_data(self):
+    path = self._get_dataset_path('testcases')
     return {
         'audio': os.path.join(path, 'castagnettes.mp3'),
         'image': os.path.join(path, 'lena.jpg'),
@@ -128,16 +140,16 @@ class CS4065_Dataset(object):
     }
 
   @classmethod
-  def get_vse_models(cls):
+  def get_vse_models(self):
     """
     Since their model has different file configuration,
     this method is implemented as in adhoc manner
     """
-    url_to_vgg = cls.DATASET_ARCHIVE_URLS['vgg19_model']
-    url_to_vse = cls.DATASET_ARCHIVE_URLS['vse_model']
+    url_to_vgg = self.DATASET_ARCHIVE_URLS['vgg19_model']
+    url_to_vse = self.DATASET_ARCHIVE_URLS['vse_model']
 
-    path_to_vgg = os.path.join(PATH_DATA,'vgg19_model')
-    path_to_vse = os.path.join(PATH_DATA,'vse_model')
+    path_to_vgg = os.path.join(self.store_dir,'vgg19_model')
+    path_to_vse = os.path.join(self.store_dir,'vse_model')
 
     vgg_fn = os.path.join(path_to_vgg,'vgg19.pkl')
     if not os.path.exists(vgg_fn):
@@ -172,7 +184,7 @@ class CS4065_Dataset(object):
     }
 
   @classmethod
-  def get_coco_testset(cls):
+  def get_coco_testset(self):
     import urllib2
 
     src = "http://www.cs.toronto.edu/~rkiros/vse_coco_dev.html"
@@ -196,21 +208,21 @@ class CS4065_Dataset(object):
     return Z
 
   @classmethod
-  def _get_dataset_path(cls, dataset_name):
+  def _get_dataset_path(self, dataset_name):
     # Check that the dataset name is valid.
-    assert dataset_name in cls.DATASET_ARCHIVE_URLS
+    assert dataset_name in self.DATASET_ARCHIVE_URLS
 
     # Fetch the dataset if not deployed.
     path = os.path.join(self.store_dir, dataset_name)
     if not os.path.exists(path):
       # Check if the dataset can be fetched.
-      if cls.DATASET_ARCHIVE_URLS[dataset_name] is None:
+      if self.DATASET_ARCHIVE_URLS[dataset_name] is None:
         raise IOError('The <%s> dataset should be manually fetched.' % dataset_name)
 
       # Fetch dataset.
       try:
         print '[notice] fetching <%s> dataset' % dataset_name
-        cls._fetch_dataset(cls.DATASET_ARCHIVE_URLS[dataset_name], path)
+        self._fetch_dataset(self.DATASET_ARCHIVE_URLS[dataset_name], path)
       except Exception as e:
         print '[error] cannot fetch <%s> dataset (%s)' % (dataset_name, e)
         # Remove content in the dataset folder.
@@ -223,7 +235,7 @@ class CS4065_Dataset(object):
     return path
 
   @classmethod
-  def _fetch_dataset(cls, url, dataset_path):
+  def _fetch_dataset(self, url, dataset_path):
     os.makedirs(dataset_path)
     (temp_file_path, headers) = urllib.urlretrieve(url)
     tar_file = tarfile.open(temp_file_path, 'r:gz')
