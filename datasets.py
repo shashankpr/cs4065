@@ -39,7 +39,7 @@ class CS4065_Dataset(object):
       }
       return
 
-  @classmethod
+  
   def get_wraprec_sample_data(self):
     """
     It returns the path to the configuration file for the WrapRec toolbox.
@@ -49,7 +49,7 @@ class CS4065_Dataset(object):
     assert os.path.exists(config_file_path)
     return config_file_path
 
-  @classmethod
+  
   def get_movielens_subset(self):
     path_to_files = self._get_dataset_path('movielens_subset')
 
@@ -62,7 +62,7 @@ class CS4065_Dataset(object):
 
     return path_to_file_dict
 
-  @classmethod
+  
   def get_msra_mm1_subset(self):
     path_to_root = self._get_dataset_path('msra_mm1_subset')
     image_prefix = os.path.join(path_to_root, 'msra-mm1_subset/Images')
@@ -87,7 +87,7 @@ class CS4065_Dataset(object):
 
     return msra_mm1_data
 
-  @classmethod
+  
   def get_songretrieval_subset(self):
     path_to_files = self._get_dataset_path('songretrieval_subset')
 
@@ -102,7 +102,7 @@ class CS4065_Dataset(object):
 
     return path_to_file_dict
 
-  @classmethod
+  
   def get_songretrieval_queries(self):
     path_to_files = self._get_dataset_path('songretrieval_queries')
 
@@ -117,7 +117,7 @@ class CS4065_Dataset(object):
 
     return path_to_file_dict
 
-  @classmethod
+  
   def get_poster_images(self):
     path_to_images = self._get_dataset_path('poster_images')
 
@@ -130,7 +130,7 @@ class CS4065_Dataset(object):
 
     return images
 
-  @classmethod
+  
   def get_testcases_data(self):
     path = self._get_dataset_path('testcases')
     return {
@@ -139,7 +139,7 @@ class CS4065_Dataset(object):
         'video': os.path.join(path, 'big_buck_bunny.mp4'),
     }
 
-  @classmethod
+  
   def get_vse_models(self):
     """
     Since their model has different file configuration,
@@ -183,7 +183,7 @@ class CS4065_Dataset(object):
         'vse_model':vse_fn
     }
 
-  @classmethod
+  
   def get_coco_testset(self):
     import urllib2
 
@@ -207,7 +207,7 @@ class CS4065_Dataset(object):
 
     return Z
 
-  @classmethod
+  
   def _get_dataset_path(self, dataset_name):
     # Check that the dataset name is valid.
     assert dataset_name in self.DATASET_ARCHIVE_URLS
@@ -234,7 +234,7 @@ class CS4065_Dataset(object):
     # Dataset deployed and ready for use.
     return path
 
-  @classmethod
+  
   def _fetch_dataset(self, url, dataset_path):
     os.makedirs(dataset_path)
     (temp_file_path, headers) = urllib.urlretrieve(url)
